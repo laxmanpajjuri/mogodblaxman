@@ -1,0 +1,44 @@
+var express = require('express');
+var app = express();
+var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
+app.use(bodyParser.json({ type: 'application/*+json' }));
+var jsonParser = bodyParser.json()
+mongoose.connect("mongodb://localhost:27017/laxman", { useNewUrlParser: true });
+var db = mongoose.connection;
+db.on('error ', console.error.bind(console, 'error connection'));
+db.once('open', function () {
+    console.log("db opened");
+});
+var schema = mongoose.Schema;
+var Details1 = new mongoose.Schema({
+    title: String,
+    author: String,
+    cost: Number
+});
+var Blog = mongoose.model('Blog', Details1,'blog');
+Blog.create(function(err, doc) {
+  console.log(err);
+});
+//var data = { title: "think different", author: "laxman", book: 500 };
+app.get('/find', function (req, res) {
+    Blog.find(function (err, blog) {
+        if (err) return console.error(err);
+        res.send(blog);
+      })
+
+})
+app.post('/insert1', jsonParser, function (req, res) {
+    var myData = new Blog(req.body);
+    Blog.collection.insert(myData, function (err, doc) {
+        if (err) {
+            return console.error(err);
+        }
+        else {
+            res.send("data inserted");
+            console.log("data inserted successfully");
+        }
+    });
+});
+
+app.listen(8080);
