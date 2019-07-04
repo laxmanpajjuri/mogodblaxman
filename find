@@ -1,0 +1,7 @@
+app.get('/find', function (req, res) {
+    Blog.find(function (err, blog) {
+        if (err) return console.error(err);
+        res.send(blog);
+      })
+
+});
