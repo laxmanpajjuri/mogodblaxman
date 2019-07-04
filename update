@@ -1,0 +1,14 @@
+app.get('/update',function(req,res){
+    var query = {"author" : "laxman"};
+    Blog.update(query, { $set: { "author": 'jason bourne' }},function(err,blog){
+        if(err){
+            return console.error(err);
+        }
+        else
+        {
+            console.log("updated");
+        }
+
+    });
+
+});
