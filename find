@@ -1,4 +1,4 @@
-app.get('/find', function (req, res) {
+app.get('/find1', function (req, res) {
     Blog.find(function (err, blog) {
         if (err) return console.error(err);
         res.send(blog);
